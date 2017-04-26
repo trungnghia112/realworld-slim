@@ -60,38 +60,70 @@ function fetchFromArrayBySlug($slug, $store)
 
 // Routes
 
-$app->get('/articles/feed', function (Request $request, Response $response) {
-    $articles = articlesDataStore();
-    return $response->withJson($articles);
+// Auth
+$app->post('/users/login', function (Request $request, Response $response) {
+    return $response->withJson(['status' => 'Need to be implemented']);
 });
 
-$app->get('/articles', function (Request $request, Response $response) {
-    $articles = articlesDataStore();
-    return $response->withJson($articles);
+$app->post('/users', function (Request $request, Response $response) {
+    return $response->withJson(['status' => 'Need to be implemented']);
 });
 
-$app->get('/articles/{slug}', function (Request $request, Response $response, $params) {
-    $article = fetchFromArrayBySlug($params['slug'], articlesDataStore());
-    return $response->withJson(['article' => $article]);
+$app->get('/user', function (Request $request, Response $response) {
+    return $response->withJson(['status' => 'Need to be implemented']);
 });
 
-$app->post('/articles', function (Request $request, Response $response, $params) {
-    // Fill in the stub
+$app->put('/user', function (Request $request, Response $response) {
+    return $response->withJson(['status' => 'Need to be implemented']);
 });
 
-$app->put('/articles/{slug}', function (Request $request, Response $response, $params) {
-    // Fill in the stub
-});
+$app->group('/articles', function () {
+    // Articles
+    $this->get('', function (Request $request, Response $response) {
+        $articles = articlesDataStore();
+        return $response->withJson($articles);
+    });
 
-$app->delete('/articles/{slug}', function (Request $request, Response $response, $params) {
-    // Fill in the stub
-});
+    $this->get('/feed', function (Request $request, Response $response) {
+        $articles = articlesDataStore();
+        return $response->withJson($articles);
+    });
 
-$app->put('/articles/{slug}/favourite', function (Request $request, Response $response, $params) {
-    // Fill in the stub
-});
+    $this->get('/{slug}', function (Request $request, Response $response, $params) {
+        $article = fetchFromArrayBySlug($params['slug'], articlesDataStore());
+        return $response->withJson(['article' => $article]);
+    });
 
-$app->delete('/articles/{slug}/favourite', function (Request $request, Response $response, $params) {
-    // Fill in the stub
-});
+    $this->post('', function (Request $request, Response $response, $params) {
+        return $response->withJson(['status' => 'Need to be implemented']);
+    });
 
+    $this->put('/{slug}', function (Request $request, Response $response, $params) {
+        return $response->withJson(['status' => 'Need to be implemented']);
+    });
+
+    $this->delete('/{slug}', function (Request $request, Response $response, $params) {
+        return $response->withJson(['status' => 'Need to be implemented']);
+    });
+
+    $this->put('/{slug}/favourite', function (Request $request, Response $response, $params) {
+        return $response->withJson(['status' => 'Need to be implemented']);
+    });
+
+    $this->delete('/{slug}/favourite', function (Request $request, Response $response, $params) {
+        return $response->withJson(['status' => 'Need to be implemented']);
+    });
+
+    // Comments
+    $this->get('/{slug}/comments', function (Request $request, Response $response, $params) {
+        return $response->withJson(['status' => 'Need to be implemented']);
+    });
+
+    $this->post('/{slug}/comments', function (Request $request, Response $response, $params) {
+        return $response->withJson(['status' => 'Need to be implemented']);
+    });
+
+    $this->delete('/{slug}/comments/{id}', function (Request $request, Response $response, $params) {
+        return $response->withJson(['status' => 'Need to be implemented']);
+    });
+});
