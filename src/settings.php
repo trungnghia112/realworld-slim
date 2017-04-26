@@ -4,9 +4,15 @@ return [
         'displayErrorDetails' => true, // set to false in production
         'addContentLengthHeader' => false, // Allow the web server to send the content-length header
 
-        // Renderer settings
-        'renderer' => [
-            'template_path' => __DIR__ . '/../templates/',
+        // Database settings
+        'db' => [
+            'driver'    => getenv('DBTYPE') ?: 'mysql',
+            'host'      => getenv('DBHOST') ?: 'localhost',
+            'database'  => getenv('DBNAME') ?: 'realworld',
+            'username'  => getenv('DBUSER') ?: 'realworld',
+            'password'  => getenv('DBPASS') ?: 'realworld',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
         ],
 
         // Monolog settings

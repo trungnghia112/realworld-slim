@@ -1,24 +1,28 @@
 {
-    "name": "slim/slim-skeleton",
-    "description": "A Slim Framework skeleton application for rapid development",
-    "keywords": ["microframework", "rest", "router", "psr7"],
-    "homepage": "http://github.com/slimphp/Slim-Skeleton",
+    "description": "A Slim Framework implementation of the real world project",
+    "homepage": "http://github.com/silentworks/realworld-slim",
     "license": "MIT",
     "authors": [
         {
-            "name": "Josh Lockhart",
-            "email": "info@joshlockhart.com",
-            "homepage": "http://www.joshlockhart.com/"
+            "name": "Andrew Smith",
+            "email": "a.smith@silentworks.co.uk",
+            "homepage": "https://www.donielsmith.com/"
         }
     ],
     "require": {
         "php": ">=5.5.0",
         "slim/slim": "^3.1",
-        "slim/php-view": "^2.0",
-        "monolog/monolog": "^1.17"
+        "monolog/monolog": "^1.17",
+        "illuminate/database": "^5.4",
+        "vlucas/phpdotenv": "^2.4"
     },
     "require-dev": {
         "phpunit/phpunit": ">=4.8 < 6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Conduit\\": "src/Conduit/"
+        }
     },
     "autoload-dev": {
         "psr-4": {
