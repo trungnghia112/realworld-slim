@@ -11,7 +11,7 @@ class User extends Model
         'username', 
         'bio',
         'image',
-        'following'
+        'password'
     ];
 
     public function articles()
