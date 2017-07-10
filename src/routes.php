@@ -4,10 +4,10 @@ use Firebase\JWT\JWT;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Conduit\Models\User;
-use Tuupola\Base62;
 
 // Dummy Data
-function articlesDataStore () {
+function articlesDataStore()
+{
     $articles = [
         'articles' => [
             [
@@ -21,10 +21,10 @@ function articlesDataStore () {
                 'favorited' => false,
                 'favoritesCount' => 0,
                 'author' => [
-                  'username' => 'jake',
-                  'bio' => 'I work at statefarm',
-                  'image' => 'https://i.stack.imgur.com/xHWG8.jpg',
-                  'following' => false
+                    'username' => 'jake',
+                    'bio' => 'I work at statefarm',
+                    'image' => 'https://i.stack.imgur.com/xHWG8.jpg',
+                    'following' => false
                 ]
             ],
             [
@@ -38,10 +38,10 @@ function articlesDataStore () {
                 'favorited' => false,
                 'favoritesCount' => 0,
                 'author' => [
-                  'username' => 'jake',
-                  'bio' => 'I work at statefarm',
-                  'image' => 'https://i.stack.imgur.com/xHWG8.jpg',
-                  'following' => false
+                    'username' => 'jake',
+                    'bio' => 'I work at statefarm',
+                    'image' => 'https://i.stack.imgur.com/xHWG8.jpg',
+                    'following' => false
                 ]
             ]
         ]
@@ -93,12 +93,11 @@ $app->post('/users/login', function (Request $request, Response $response) {
     $now = new DateTime();
     $future = new DateTime("now +1 day");
 
-    $jti = (new Base62)->encode(random_bytes(16));
-
     $payload = [
+        "id" => $user->id,
+        "email" => $user->email,
         "iat" => $now->getTimestamp(),
-        "exp" => $future->getTimestamp(),
-        "jti" => $jti
+        "exp" => $future->getTimestamp()
     ];
 
     $secret = getenv("JWT_SECRET");
@@ -121,7 +120,10 @@ $app->post('/users', function (Request $request, Response $response) {
             'password' => password_hash($params['password'], PASSWORD_DEFAULT)
         ]);
     } catch (Exception $e) {
-        return $response->withJson(['status' => 'error', 'message' => 'There was an error creating this user'])->withStatus(400);
+        return $response->withJson([
+            'status' => 'error',
+            'message' => 'There was an error creating this user'
+        ])->withStatus(400);
     }
 
     return $response->withJson(['user' => $user])->withStatus(201);
