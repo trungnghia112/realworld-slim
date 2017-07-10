@@ -89,7 +89,7 @@ $app->post('/users/login', function (Request $request, Response $response) {
         return $response->withJson(['errors' => 'Login information incorrect'])->withStatus(401);
     }
 
-    // Generate JWT and return it
+    // Generate JWT
     $now = new DateTime();
     $future = new DateTime("now +1 day");
 
@@ -103,7 +103,10 @@ $app->post('/users/login', function (Request $request, Response $response) {
 
     $secret = getenv("JWT_SECRET");
     $token = JWT::encode($payload, $secret, "HS256");
+
+    // Add token to user object and remove items not required
     $user->token = $token;
+    unset($user->password, $user->created_at, $user->updated_at, $user->id);
 
     return $response->withJson(['user' => $user])->withStatus(201);
 });
