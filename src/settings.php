@@ -6,11 +6,11 @@ return [
 
         // Database settings
         'db' => [
-            'driver'    => getenv('DBTYPE') ?: 'mysql',
-            'host'      => getenv('DBHOST') ?: 'localhost',
-            'database'  => getenv('DBNAME') ?: 'realworld',
-            'username'  => getenv('DBUSER') ?: 'realworld',
-            'password'  => getenv('DBPASS') ?: 'realworld',
+            'driver'    => getenv('DBTYPE'),
+            'host'      => getenv('DBHOST'),
+            'database'  => getenv('DBNAME'),
+            'username'  => getenv('DBUSER'),
+            'password'  => getenv('DBPASS'),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
         ],
