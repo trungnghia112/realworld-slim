@@ -15,7 +15,9 @@
         "monolog/monolog": "^1.21",
         "illuminate/database": "^5.4",
         "vlucas/phpdotenv": "^2.4",
-        "robmorgan/phinx": "^0.8.1"
+        "robmorgan/phinx": "^0.8.1",
+        "tuupola/slim-jwt-auth": "^2.3",
+        "tuupola/base62": "^0.8.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.2"

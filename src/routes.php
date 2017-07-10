@@ -1,8 +1,10 @@
 <?php
 
+use Firebase\JWT\JWT;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Conduit\Models\User;
+use Tuupola\Base62;
 
 // Dummy Data
 function articlesDataStore () {
@@ -63,7 +65,47 @@ function fetchFromArrayBySlug($slug, $store)
 
 // Auth
 $app->post('/users/login', function (Request $request, Response $response) {
-    return $response->withJson(['status' => 'Need to be implemented']);
+    $params = $request->getParsedBody()['user'];
+
+    // Make sure a username has been provided
+    if (!isset($params['email']) || empty($params['email'])) {
+        return $response->withJson(['errors' => ['email' => ['can\'t be empty']]])->withStatus(422);
+    }
+    // Make sure a password has been provided
+    if (!isset($params['password']) || empty($params['password'])) {
+        return $response->withJson(['errors' => ['password' => ['can\'t be empty']]])->withStatus(422);
+    }
+
+    // Find the user
+    $user = User::where('email', $params['email'])->first();
+
+    // Return error if user not found
+    if (!$user) {
+        return $response->withJson(['errors' => 'User not found'])->withStatus(404);
+    }
+
+    // Attempt to verify password, return error if failed
+    if (!password_verify($params['password'], $user->password)) {
+        return $response->withJson(['errors' => 'Login information incorrect'])->withStatus(401);
+    }
+
+    // Generate JWT and return it
+    $now = new DateTime();
+    $future = new DateTime("now +1 day");
+
+    $jti = (new Base62)->encode(random_bytes(16));
+
+    $payload = [
+        "iat" => $now->getTimestamp(),
+        "exp" => $future->getTimestamp(),
+        "jti" => $jti
+    ];
+
+    $secret = getenv("JWT_SECRET");
+    $token = JWT::encode($payload, $secret, "HS256");
+    $user->token = $token;
+
+    return $response->withJson(['user' => $user])->withStatus(201);
 });
 
 $app->post('/users', function (Request $request, Response $response) {
