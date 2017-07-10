@@ -2,6 +2,7 @@
 
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Conduit\Models\User;
 
 // Dummy Data
 function articlesDataStore () {
@@ -66,7 +67,19 @@ $app->post('/users/login', function (Request $request, Response $response) {
 });
 
 $app->post('/users', function (Request $request, Response $response) {
-    return $response->withJson(['status' => 'Need to be implemented']);
+    $params = $request->getParsedBody()['user'];
+
+    try {
+        $user = User::create([
+            'username' => $params['username'],
+            'email' => $params['email'],
+            'password' => password_hash($params['password'], PASSWORD_DEFAULT)
+        ]);
+    } catch (Exception $e) {
+        return $response->withJson(['status' => 'error', 'message' => 'There was an error creating this user'])->withStatus(400);
+    }
+
+    return $response->withJson(['user' => $user])->withStatus(201);
 });
 
 $app->get('/user', function (Request $request, Response $response) {
